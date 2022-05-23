@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<libraries>
+    <library>
+        <location>thirdparty/mpay24</location>
+        <name>mpay24</name>
+        <version>v5.0.4</version>
+        <license>MIT</license>
+        <licenseversion>1</licenseversion>
+    </library>
+</libraries>

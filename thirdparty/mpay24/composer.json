@@ -1,0 +1,24 @@
+{
+  "name": "mpay24/mpay24-php",
+  "description": "Offical PHP SDK for SOAP Bindings",
+  "autoload": {
+    "psr-4": {
+      "Mpay24\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mpay24Test\\": "tests/"
+    }
+  },
+  "license": "MIT",
+  "require": {
+    "php": ">=7.2",
+    "ext-curl": "*",
+    "ext-dom": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.5",
+    "phpstan/phpstan": "^0.12.9"
+  }
+}

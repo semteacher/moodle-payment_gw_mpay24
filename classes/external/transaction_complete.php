@@ -151,6 +151,15 @@ class transaction_complete extends external_api
                 $url = $successurl;
                 $success = true;
 
+                $existingdata = $DB->get_record('paygw_mpay24', array('mpay24_orderid' => $transactionid));
+
+                if (!empty($existingdata)) {
+                    //Purchase already stored
+                    $success = false;
+                    $message = get_string('internalerror', 'paygw_mpay24');
+
+                } else {
+
                 try {
                     $paymentid = payment_helper::save_payment(
                         $payable->get_account_id(),
@@ -185,6 +194,7 @@ class transaction_complete extends external_api
                     debugging('Exception while trying to process payment: ' . $e->getMessage(), DEBUG_DEVELOPER);
                     $success = false;
                     $message = get_string('internalerror', 'paygw_mpay24');
+                }
                 }
             } else {
                 $success = false;

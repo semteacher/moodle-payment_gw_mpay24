@@ -106,7 +106,7 @@ class get_config_for_js extends external_api {
         //Create Task to check status after 30 minutes.
         $userid = $USER->id;
         $now = time();
-        $nextruntime = strtotime('+5 min', $now);
+        $nextruntime = strtotime('+30 min', $now);
 
         $taskdata = new stdClass();
         $taskdata->token = '';

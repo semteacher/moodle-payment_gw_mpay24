@@ -94,9 +94,9 @@ class get_config_for_js extends external_api {
         $tid = $string . $timestamp;
 
         if ($environment == 'sandbox') {
-            $mpay24 = new Mpay24($entityid, $secret, "TEST");
+            $mpay24 = new Mpay24($entityid, $secret, TRUE);
         } else {
-            $mpay24 = new Mpay24($entityid, $secret);
+            $mpay24 = new Mpay24($entityid, $secret, FALSE);
         }
 
         $tokenizer = $mpay24->token("CC");

@@ -113,9 +113,9 @@ class mpay24_helper {
 
 
         if ($this->sandbox) {
-            $mpay24 = new Mpay24($this->clientid, $this->secret, "TEST");
+            $mpay24 = new Mpay24($this->clientid, $this->secret, TRUE);
         } else {
-            $mpay24 = new Mpay24($this->clientid, $this->secret);
+            $mpay24 = new Mpay24($this->clientid, $this->secret, FALSE);
         }
 
 

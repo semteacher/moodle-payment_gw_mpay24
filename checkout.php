@@ -33,7 +33,9 @@ $itemid = required_param('itemid', PARAM_RAW);
 $tid = required_param('tid', PARAM_RAW);
 $component = required_param('component', PARAM_RAW);
 $paymentarea = required_param('paymentarea', PARAM_RAW);
-$ischeckstatus = false;
+$ischeckstatus = required_param('ischeckstatus', PARAM_BOOL);
+
+// $ischeckstatus = false;
 
 if (!$context = context_system::instance()) {
     throw new moodle_exception('badcontext');

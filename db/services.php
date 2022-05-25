@@ -40,4 +40,12 @@ $functions = [
         'ajax'        => true,
         'loginrequired' => false,
     ],
+    'paygw_mpay24_redirectpayment' => [
+        'classname'   => 'paygw_mpay24\external\get_redirect_payments',
+        'classpath'   => '',
+        'description' => '',
+        'type'        => 'write',
+        'ajax'        => true,
+        'loginrequired' => false,
+    ],
 ];

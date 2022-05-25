@@ -1,0 +1,32 @@
+<div>
+    <div class="row" style="margin-top: 30px;">
+        <div class="col">
+        <h4>
+         {{#str}}
+            other_options, paygw_mpay24
+        {{/str}}
+        </h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button id="more" class="btn btn-secondary">
+                  {{#str}}
+                    more, paygw_mpay24
+                  {{/str}}
+            </button>
+        </div>
+    </div>
+</div>
+
+
+{{#js}}
+    require(['jquery', 'paygw_mpay24/redirectpayment'], function($, redirectpayment) {
+     $('#more').click(function(e) { 
+         redirectpayment.init('{{component}}',
+                        '{{paymentarea}}',
+                        '{{itemid}}',
+                        '{{tid}}');
+     })
+    });
+{{/js}}

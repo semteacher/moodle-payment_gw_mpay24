@@ -54,4 +54,10 @@ $string['proceed'] = 'Fortfahren';
 $string['payment_successful'] = 'Zahlung erfolgreich. Klicken sie auf Fortfahren um zu Ihrem Kurs weitergeleitet zu werden.';
 $string['payment_error'] = 'Ein Fehler ist bei der Zahlung mit mpay24 aufgetreten. Bitte versuchen sie es Später erneut.';
 
+$string['other_options'] = "Andere Zahlungsarten";
+$string['more'] = "Mehr";
+
+$string['quick_checkout'] = "Schneller Checkout";
+$string['paycredit'] = "Mit Kreditkarte zahlen";
+
 

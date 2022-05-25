@@ -53,3 +53,9 @@ $string['payment_error'] = 'An error occured during the payment. Please try agai
 $string['success'] = 'Success';
 $string['error'] = 'Error';
 $string['proceed'] = 'Proceed';
+
+$string['other_options'] = "Other payment options";
+$string['more'] = "More";
+
+$string['quick_checkout'] = "Quick checkout";
+$string['paycredit'] = "Pay with creditcard";;

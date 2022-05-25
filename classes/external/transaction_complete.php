@@ -115,20 +115,23 @@ class transaction_complete extends external_api
             $orderdetails= $mpay24helper->check_payment_status($tid);
         } else {
             $orderdetails = $mpay24helper->pay_token($successurl);
-
         }
 
         $success = false;
         $message = '';
 
         if ($orderdetails) {
-            $returnStatus = $orderdetails->getStatus();
+            if ($ischeckstatus) {
+                $returnStatus = $orderdetails->getParam('STATUS');
+            } else {
+                $returnStatus = $orderdetails->getStatus();
+            }
             $transactionid = $tid;
             $url = $serverurl;
             $status = '';
             // SANDBOX OR PROD.
             if ($sandbox == true) {
-                if ($returnStatus == 'OK') {
+                if ($returnStatus == 'OK' || $returnStatus == 'BILLED' ) {
                     // Approved.
                     $status = 'success';
                     $message = get_string('payment_successful', 'paygw_mpay24');
@@ -137,7 +140,7 @@ class transaction_complete extends external_api
                     $status = false;
                 }
             } else {
-                if ($returnStatus == 'OK') {
+                if ($returnStatus == 'OK' || $returnStatus == 'BILLED' ) {
                     // Approved.
                     $status = 'success';
                     $message = get_string('payment_successful', 'paygw_mpay24');

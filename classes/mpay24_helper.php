@@ -137,9 +137,9 @@ class mpay24_helper {
 
     public function check_payment_status($tid) {
         if ($this->sandbox) {
-            $mpay24 = new Mpay24($this->clientid, $this->secret, "TEST");
+            $mpay24 = new Mpay24($this->clientid, $this->secret, TRUE);
         } else {
-            $mpay24 = new Mpay24($this->clientid, $this->secret);
+            $mpay24 = new Mpay24($this->clientid, $this->secret, FALSE);
         }
 
         $status = $mpay24->paymentStatusByTID($tid);

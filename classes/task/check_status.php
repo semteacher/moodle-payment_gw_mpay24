@@ -72,7 +72,6 @@ class check_status extends \core\task\adhoc_task {
             $taskdata->tid,
             $taskdata->ischeckstatus
         );
-        
 
         mtrace('Update Status ' . $taskdata->itemid . ' from ' . $taskdata->componentname . ' for user .' . $userid);
 

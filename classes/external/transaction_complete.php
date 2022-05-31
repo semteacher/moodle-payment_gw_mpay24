@@ -40,16 +40,14 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/externallib.php');
 
-class transaction_complete extends external_api
-{
+class transaction_complete extends external_api {
 
     /**
      * Returns description of method parameters.
      *
      * @return external_function_parameters
      */
-    public static function execute_parameters()
-    {
+    public static function execute_parameters() {
         return new external_function_parameters([
             'token' => new external_value(PARAM_RAW, 'Purchase token'),
             'itemid' => new external_value(PARAM_INT, 'The item id in the context of the component area'),
@@ -71,8 +69,7 @@ class transaction_complete extends external_api
      * @param string $orderid mpay24 order ID
      * @return array
      */
-    public static function execute($token, $itemid, $customer, $component, $paymentarea, $tid, $ischeckstatus): array
-    {
+    public static function execute($token, $itemid, $customer, $component, $paymentarea, $tid, $ischeckstatus): array {
 
         global $USER, $DB, $CFG, $DB;
         self::validate_parameters(self::execute_parameters(), [
@@ -95,7 +92,7 @@ class transaction_complete extends external_api
         $surcharge = helper::get_gateway_surcharge('mpay24');
         $amount = helper::get_rounded_cost($payable->get_amount(), $currency, $surcharge);
 
-        $successurl = helper::get_success_url($component, $paymentarea, $itemid)->__toString();  
+        $successurl = helper::get_success_url($component, $paymentarea, $itemid)->__toString();
         $serverurl = $CFG->wwwroot;
 
         $mpay24helper = new mpay24_helper(
@@ -112,7 +109,7 @@ class transaction_complete extends external_api
         );
 
         if ($ischeckstatus) {
-            $orderdetails= $mpay24helper->check_payment_status($tid);
+            $orderdetails = $mpay24helper->check_payment_status($tid);
         } else {
             $orderdetails = $mpay24helper->pay_token($successurl);
         }
@@ -122,16 +119,16 @@ class transaction_complete extends external_api
 
         if ($orderdetails) {
             if ($ischeckstatus) {
-                $returnStatus = $orderdetails->getParam('STATUS');
+                $returnstatus = $orderdetails->getParam('STATUS');
             } else {
-                $returnStatus = $orderdetails->getStatus();
+                $returnstatus = $orderdetails->getStatus();
             }
             $transactionid = $tid;
             $url = $serverurl;
             $status = '';
             // SANDBOX OR PROD.
             if ($sandbox == true) {
-                if ($returnStatus == 'OK' || $returnStatus == 'BILLED' ) {
+                if ($returnstatus == 'OK' || $returnstatus == 'BILLED' ) {
                     // Approved.
                     $status = 'success';
                     $message = get_string('payment_successful', 'paygw_mpay24');
@@ -140,7 +137,7 @@ class transaction_complete extends external_api
                     $status = false;
                 }
             } else {
-                if ($returnStatus == 'OK' || $returnStatus == 'BILLED' ) {
+                if ($returnstatus == 'OK' || $returnstatus == 'BILLED' ) {
                     // Approved.
                     $status = 'success';
                     $message = get_string('payment_successful', 'paygw_mpay24');
@@ -154,17 +151,22 @@ class transaction_complete extends external_api
                 $url = $successurl;
                 $success = true;
 
+                // Check if order is existing.
+
+                $checkorder = $DB->get_record('paygw_mpay24_openorders', array('tid' => $transactionid, 'itemid' => $itemid,
+                'userid' => intval($USER->id)));
+
                 $existingdata = $DB->get_record('paygw_mpay24', array('mpay24_orderid' => $transactionid));
 
-                if (!empty($existingdata)) {
-                    //Purchase already stored
+                if (!empty($existingdata) || empty($checkorder) ) {
+                    // Purchase already stored.
                     $success = false;
                     $message = get_string('internalerror', 'paygw_mpay24');
 
                 } else {
 
-                try {
-                    $paymentid = payment_helper::save_payment(
+                    try {
+                        $paymentid = payment_helper::save_payment(
                         $payable->get_account_id(),
                         $component,
                         $paymentarea,
@@ -173,31 +175,32 @@ class transaction_complete extends external_api
                         $amount,
                         $currency,
                         'mpay24'
-                    );
+                        );
 
-                    // Store mpay24 extra information.
-                    $record = new \stdClass();
-                    $record->paymentid = $paymentid;
-                    $record->mpay24_orderid = $transactionid;
+                        // Store mpay24 extra information.
+                        $record = new \stdClass();
+                        $record->paymentid = $paymentid;
+                        $record->mpay24_orderid = $transactionid;
 
-                    $DB->insert_record('paygw_mpay24', $record);
-
-
-                    // We trigger the payment_successful event.
-                    $context = context_system::instance();
-                    $event = payment_successful::create(array('context' => $context, 'other' => [
+                        $DB->insert_record('paygw_mpay24', $record);
+                        // We trigger the payment_successful event.
+                        $context = context_system::instance();
+                        $event = payment_successful::create(array('context' => $context, 'other' => [
                         'message' => $message,
                         'orderid' => $transactionid
-                    ]));
-                    $event->trigger();
+                        ]));
+                        $event->trigger();
 
-                    // The order is delivered.
-                    payment_helper::deliver_order($component, $paymentarea, $itemid, $paymentid, (int) $USER->id);
-                } catch (\Exception $e) {
-                    debugging('Exception while trying to process payment: ' . $e->getMessage(), DEBUG_DEVELOPER);
-                    $success = false;
-                    $message = get_string('internalerror', 'paygw_mpay24');
-                }
+                        // The order is delivered.
+                        payment_helper::deliver_order($component, $paymentarea, $itemid, $paymentid, (int) $USER->id);
+
+                        // Delete transaction after its been delivered.
+                        $DB->delete_records('paygw_mpay24_openorders', array('tid' => $transactionid));
+                    } catch (\Exception $e) {
+                        debugging('Exception while trying to process payment: ' . $e->getMessage(), DEBUG_DEVELOPER);
+                        $success = false;
+                        $message = get_string('internalerror', 'paygw_mpay24');
+                    }
                 }
             } else {
                 $success = false;
@@ -219,7 +222,7 @@ class transaction_complete extends external_api
                 'itemid' => $itemid,
                 'component' => $component,
                 'paymentarea' => $paymentarea]));
-          $event->trigger();
+            $event->trigger();
         }
 
         return [
@@ -234,8 +237,7 @@ class transaction_complete extends external_api
      *
      * @return external_function_parameters
      */
-    public static function execute_returns()
-    {
+    public static function execute_returns() {
         return new external_function_parameters([
             'url' => new external_value(PARAM_URL, 'Redirect URL.'),
             'success' => new external_value(PARAM_BOOL, 'Whether everything was successful or not.'),

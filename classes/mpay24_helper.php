@@ -62,12 +62,12 @@ class mpay24_helper {
      */
     private $sandbox;
 
-     /**
+    /**
      * @var string customer
      */
     private $customer;
 
-        /**
+    /**
      * @var string Client ID
      */
     private $clientid;
@@ -82,7 +82,7 @@ class mpay24_helper {
      */
     private $itemid;
 
-        /**
+    /**
      * @var string Unique transaction id
      */
     private $tid;
@@ -94,7 +94,7 @@ class mpay24_helper {
      * @param string $secret mpay24 secret.
      * @param bool $sandbox Whether we are working with the sandbox environment or not.
      */
-    public function __construct(string $baseurl, float $amount,string $currency,string $token,bool $sandbox, string $customer, 
+    public function __construct(string $baseurl, float $amount, string $currency, string $token, bool $sandbox, string $customer,
     string $clientid, string $secret, int $itemid, string $tid ) {
         $this->currency = $currency;
         $this->baseurl = $baseurl;
@@ -111,13 +111,11 @@ class mpay24_helper {
     public function pay_token($succesurl) {
         global $CFG;
 
-
         if ($this->sandbox) {
-            $mpay24 = new Mpay24($this->clientid, $this->secret, TRUE);
+            $mpay24 = new Mpay24($this->clientid, $this->secret, true);
         } else {
-            $mpay24 = new Mpay24($this->clientid, $this->secret, FALSE);
+            $mpay24 = new Mpay24($this->clientid, $this->secret, false);
         }
-
 
         $payment = array(
             "amount" => $this->amount,
@@ -128,18 +126,17 @@ class mpay24_helper {
           $additional = array(
             "successURL"   => $succesurl,
           );
-          
-          $result = $mpay24->payment("TOKEN", $this->tid, $payment, $additional);
 
+          $result = $mpay24->payment("TOKEN", $this->tid, $payment, $additional);
 
           return $result;
     }
 
     public function check_payment_status($tid) {
         if ($this->sandbox) {
-            $mpay24 = new Mpay24($this->clientid, $this->secret, TRUE);
+            $mpay24 = new Mpay24($this->clientid, $this->secret, true);
         } else {
-            $mpay24 = new Mpay24($this->clientid, $this->secret, FALSE);
+            $mpay24 = new Mpay24($this->clientid, $this->secret, false);
         }
 
         $status = $mpay24->paymentStatusByTID($tid);

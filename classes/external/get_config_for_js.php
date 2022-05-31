@@ -71,7 +71,7 @@ class get_config_for_js extends external_api {
      * @return string[]
      */
     public static function execute(string $component, string $paymentarea, int $itemid): array {
-        GLOBAL $CFG, $USER, $SESSION;
+        GLOBAL $CFG, $USER, $SESSION, $DB;
         self::validate_parameters(self::execute_parameters(), [
             'component' => $component,
             'paymentarea' => $paymentarea,
@@ -93,17 +93,24 @@ class get_config_for_js extends external_api {
         $timestamp = $now->getTimestamp();
         $tid = $string . $timestamp;
 
+        $record = new \stdClass();
+        $record->tid = $tid;
+        $record->itemid = $itemid;
+        $record->userid = intval($USER->id);
+
+        $DB->insert_record('paygw_mpay24_openorders', $record);
+
         if ($environment == 'sandbox') {
-            $mpay24 = new Mpay24($entityid, $secret, TRUE);
+            $mpay24 = new Mpay24($entityid, $secret, true);
         } else {
-            $mpay24 = new Mpay24($entityid, $secret, FALSE);
+            $mpay24 = new Mpay24($entityid, $secret, false);
         }
 
         $tokenizer = $mpay24->token("CC");
-        $tokenizerLocation = $tokenizer->getLocation();
+        $tokenizerlocation = $tokenizer->getLocation();
         $token = urlencode($tokenizer->getToken());
-        
-        //Create Task to check status after 30 minutes.
+
+        // Create Task to check status after 30 minutes.
         $userid = $USER->id;
         $now = time();
         $nextruntime = strtotime('+30 min', $now);
@@ -132,12 +139,12 @@ class get_config_for_js extends external_api {
             'environment' => $environment,
             'language' => $language,
             'token' => $token,
-            'tokenizerlocation' => $tokenizerLocation,
+            'tokenizerlocation' => $tokenizerlocation,
             'tid' => $tid,
 
         ];
     }
-    
+
 
     /**
      * Returns description of method result value.

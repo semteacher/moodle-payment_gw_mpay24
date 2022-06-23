@@ -82,14 +82,10 @@ export const init = (token, itemid, customer, component, paymentarea, tid, ische
             });
 
 
-            // eslint-disable-next-line no-console
-            console.log(data, data.url);
-
-
         },
-        fail: function(ex) {
+        fail: function() {
             // eslint-disable-next-line no-console
-            console.log("ex:" + ex);
+            // console.log("ex:" + ex);
         },
     }]);
 

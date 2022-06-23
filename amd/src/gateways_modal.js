@@ -66,90 +66,14 @@ export const process = (component, paymentArea, itemId, description) => {
             ]);
         })
         .then(([modal, mpay24Config]) => {
-
-            require(['jquery', 'core/str'], function($, str) {
-
-                var strings = [
-                    {
-                        key: 'quick_checkout',
-                        component: 'paygw_mpay24'
-                    },
-                    {
-                        key: 'paycredit',
-                        component: 'paygw_mpay24'
-                    }
-                ];
-
-                var localStrings = str.get_strings(strings);
-                $.when(localStrings).done(function(localizedEditStrings) {
-
-
-            const optionsel = document.createElement('div');
-
-            const context = {
-                component,
-                paymentarea: paymentArea,
-                itemid: itemId,
-                tid: mpay24Config.tid
-            };
-
-
-            Templates.renderForPromise('paygw_mpay24/paymentoptions', context).then(({html, js}) => {
-                    Templates.appendNodeContents(optionsel, html, js);
-                    return true;
-                }).catch();
-
-            const language = mpay24Config.language;
-            const header = document.createElement('h4');
-            header.textContent = localizedEditStrings[0];
-            const container = document.createElement('div');
-            container.insertAdjacentElement('afterbegin', header);
-
-            const iframe = document.createElement('iframe');
-            iframe.setAttribute('src', mpay24Config.tokenizerlocation);
-            iframe.setAttribute('style', "width: 100%");
-            const buttons = document.createElement('form');
-            let buttontext = localizedEditStrings[1];
-
-            buttons.innerHTML = `<form id="paymentform"  method="POST">
-            <input name="token" type="hidden" value="${mpay24Config.token}" />
-            <button id="paybutton" name="type" value="TOKEN" type="submit" disabled="true">${buttontext}</button>
-            </form>`;
-            container.insertAdjacentElement('beforeend', iframe);
-            container.insertAdjacentElement('beforeend', buttons);
-            container.insertAdjacentElement('beforeend', optionsel);
-
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            const code = `
-            window.addEventListener("message", checkValid, false);
-            function checkValid(form) {
-            var data = JSON.parse(form.data);
-            if (data.valid === "true") {
-                document.getElementById("paybutton").disabled=false;
-            }
-            }
-            `;
-            script.appendChild(document.createTextNode(code));
-
-            document.head.appendChild(script);
-
-            buttons.addEventListener('submit', (event) => {
-
-                const formData = new FormData(event.target);
-                const entries = [...formData.entries()];
-                const values = [...formData.values()];
-                event.preventDefault();
-                const url = `${mpay24Config.rooturl}/payment/gateway/mpay24/checkout.php?token=${values[0]}&customer=${mpay24Config.clientid}&itemid=${itemId}&component=${component}&paymentarea=${paymentArea}&tid=${mpay24Config.tid}&ischeckstatus=${false}`;
-                window.location.href = url;
-
-            });
-
-            modal.setBody(container);
-
+            require(['jquery', 'paygw_mpay24/redirectpayment'], function($, redirectpayment) {
+                $(document).ready(function() {
+                    redirectpayment.init(component,
+                                   paymentArea,
+                                   itemId,
+                                   mpay24Config.tid);
                 });
-
-            });
+               });
 
             return '';
 

@@ -58,4 +58,4 @@ $string['other_options'] = "Other payment options";
 $string['more'] = "More";
 
 $string['quick_checkout'] = "Quick checkout";
-$string['paycredit'] = "Pay with creditcard";;
+$string['paycredit'] = "Pay with creditcard";

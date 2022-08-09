@@ -35,53 +35,48 @@ export const init = (token, itemid, customer, component, paymentarea, tid, ische
         },
         done: function(data) {
 
+            if (data.success !== true) {
 
-            require(['jquery'], function($) {
-                require(['core/str'], function(str) {
+                require(['jquery'], function($) {
+                    require(['core/str'], function(str) {
 
-                    var strings = [
-                        {
-                            key: 'success',
-                            component: 'paygw_mpay24'
-                        },
-                        {
-                            key: 'error',
-                            component: 'paygw_mpay24'
-                        },
-                        {
-                            key: 'proceed',
-                            component: 'paygw_mpay24',
-                        }
-                    ];
-
-                    var localStrings = str.get_strings(strings);
-                    $.when(localStrings).done(function(localizedEditStrings) {
-
-                        ModalFactory.create({
-                            type: ModalFactory.types.CANCEL,
-                            title: data.success == true ? localizedEditStrings[0] : localizedEditStrings[1],
-                            body: data.message,
-                            buttons: {
-                                cancel: localizedEditStrings[2],
+                        var strings = [
+                            {
+                                key: 'error',
+                                component: 'paygw_mpay24'
                             },
-                        })
-                        .then(function(modal) {
-                            var root = modal.getRoot();
-                            root.on(ModalEvents.cancel, function() {
-                                location.href = data.url;
+                            {
+                                key: 'proceed',
+                                component: 'paygw_mpay24',
+                            }
+                        ];
+                        var localStrings = str.get_strings(strings);
+                        $.when(localStrings).done(function(localizedEditStrings) {
+                            ModalFactory.create({
+                                type: ModalFactory.types.CANCEL,
+                                title: localizedEditStrings[0],
+                                body: data.message,
+                                buttons: {
+                                    cancel: localizedEditStrings[1],
+                                },
+                            })
+                            .then(function(modal) {
+                                var root = modal.getRoot();
+                                root.on(ModalEvents.cancel, function() {
+                                    location.href = data.url;
+                                });
+                                modal.show();
+                                return true;
+                            }).catch({
+                                // eslint-disable-next-line no-console
+                                // console.log(e);
                             });
-                            modal.show();
-                            return true;
-                        }).catch(e => {
-                            // eslint-disable-next-line no-console
-                            console.log(e);
                         });
-
                     });
                 });
-            });
-
-
+            } else {
+                location.href = data.url;
+            }
         },
         fail: function() {
             // eslint-disable-next-line no-console

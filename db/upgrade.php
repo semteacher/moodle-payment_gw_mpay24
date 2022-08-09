@@ -32,9 +32,38 @@ defined('MOODLE_INTERNAL') || die();
  */
 function xmldb_paygw_mpay24_upgrade(int $oldversion): bool {
     global $DB;
+    $dbman = $DB->get_manager();
 
     // Automatically generated Moodle v3.11.0 release upgrade line.
     // Put any upgrade step following this.
+    if ($oldversion < 2022080800) {
 
+        // Define field paymentbrand to be added to paygw_mpay24.
+        $table = new xmldb_table('paygw_mpay24');
+        $field = new xmldb_field('paymentbrand', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'mpay24_orderid');
+
+        // Conditionally launch add field paymentbrand.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mpay24 savepoint reached.
+        upgrade_plugin_savepoint(true, 2022080800, 'paygw', 'mpay24');
+    }
+
+    if ($oldversion < 2022080800) {
+
+        // Define field pboriginal to be added to paygw_mpay24.
+        $table = new xmldb_table('paygw_mpay24');
+        $field = new xmldb_field('pboriginal', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'paymentbrand');
+
+        // Conditionally launch add field pboriginal.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mpay24 savepoint reached.
+        upgrade_plugin_savepoint(true, 2022080800, 'paygw', 'mpay24');
+    }
     return true;
 }

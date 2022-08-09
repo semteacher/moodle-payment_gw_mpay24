@@ -182,6 +182,18 @@ class transaction_complete extends external_api {
                         $record->paymentid = $paymentid;
                         $record->mpay24_orderid = $transactionid;
 
+                        $brand = $orderdetails->getParam('BRAND');
+
+                        // Store Brand in DB.
+                        if (get_string_manager()->string_exists($brand, 'paygw_mpay24')) {
+                            $record->paymentbrand = get_string($brand, 'paygw_mpay24');
+                        } else {
+                            $record->paymentbrand = get_string('unknownbrand', 'paygw_mpay24');
+                        }
+
+                        // Store original value.
+                        $record->pboriginal = $brand;
+
                         $DB->insert_record('paygw_mpay24', $record);
                         // We trigger the payment_successful event.
                         $context = context_system::instance();

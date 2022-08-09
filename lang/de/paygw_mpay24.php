@@ -60,4 +60,9 @@ $string['more'] = "Mehr";
 $string['quick_checkout'] = "Schneller Checkout";
 $string['paycredit'] = "Mit Kreditkarte zahlen";
 
+$string['unknownbrand'] = "UK";
+$string['MASTERCARD'] = "MC";
+$string['VISA'] = "VC";
+$string['EPS'] = "EP";
+
 

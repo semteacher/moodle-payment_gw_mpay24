@@ -76,12 +76,14 @@ class get_redirect_payments extends external_api {
         $root = $CFG->wwwroot;
 
         if ($environment == 'sandbox') {
-            $mpay24 = new Mpay24($config['clientid'], $config['secret'], TRUE);
+            $mpay24 = new Mpay24($config['clientid'], $config['secret'], true);
         } else {
-            $mpay24 = new Mpay24($config['clientid'], $config['secret'], FALSE);
+            $mpay24 = new Mpay24($config['clientid'], $config['secret'], false);
         }
 
-        $redirecturl = $root . "/payment/gateway/mpay24/checkout.php?token=''&customer=" . $config['clientid'] . "&itemid=" . $itemid . "&component=" . $component . "&paymentarea=" . $paymentarea . "&tid=" . $tid . "&ischeckstatus=true";
+        $redirecturl = $root . "/payment/gateway/mpay24/checkout.php?token=''&customer=" .
+            $config['clientid'] . "&itemid=" . $itemid . "&component=" . $component .
+            "&paymentarea=" . $paymentarea . "&tid=" . $tid . "&ischeckstatus=true";
         $mdxi = new Mpay24Order();
         $mdxi->Order->Tid = $tid;
         $mdxi->Order->Price = $price;

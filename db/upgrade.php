@@ -65,5 +65,35 @@ function xmldb_paygw_mpay24_upgrade(int $oldversion): bool {
         // Mpay24 savepoint reached.
         upgrade_plugin_savepoint(true, 2022080800, 'paygw', 'mpay24');
     }
+
+    if ($oldversion < 2023061200) {
+
+        // Changing type of field tid on table paygw_mpay24_openorders to char.
+        $table = new xmldb_table('paygw_mpay24_openorders');
+        $field = new xmldb_field('tid', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Launch change of type for field tid.
+        $dbman->change_field_type($table, $field);
+
+        // Define field price to be added to paygw_mpay24.
+        $field = new xmldb_field('price', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'userid');
+
+        // Conditionally launch add field price.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field status to be added to paygw_mpay24.
+        $field = new xmldb_field('status', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0, 'price');
+
+        // Conditionally launch add field price.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Mpay24 savepoint reached.
+        upgrade_plugin_savepoint(true, 2023061200, 'paygw', 'mpay24');
+    }
+
     return true;
 }

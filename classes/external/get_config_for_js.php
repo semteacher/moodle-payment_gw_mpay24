@@ -110,10 +110,17 @@ class get_config_for_js extends external_api {
         $tokenizerlocation = $tokenizer->getLocation();
         $token = urlencode($tokenizer->getToken());
 
-        // Create Task to check status after 30 minutes.
+        // Create task to check status.
+        // We have to check 1 minute before item gets deleted from cache.
         $userid = $USER->id;
         $now = time();
-        $nextruntime = strtotime('+30 min', $now);
+        if (get_config('local_shopping_cart', 'expirationtime') && get_config('local_shopping_cart', 'expirationtime') > 2) {
+            $expirationminutes = get_config('local_shopping_cart', 'expirationtime') - 1;
+            $nextruntime = strtotime('+' . $expirationminutes . ' min', $now);
+        } else {
+            // Fallback.
+            $nextruntime = strtotime('+30 min', $now);
+        }
 
         $taskdata = new stdClass();
         $taskdata->token = '';

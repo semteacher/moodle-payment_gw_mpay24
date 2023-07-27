@@ -35,6 +35,7 @@ use core_payment\helper as payment_helper;
 use paygw_mpay24\event\payment_error;
 use paygw_mpay24\event\payment_successful;
 use paygw_mpay24\mpay24_helper;
+use paygw_mpay24\event\payment_completed;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -49,13 +50,13 @@ class transaction_complete extends external_api {
      */
     public static function execute_parameters() {
         return new external_function_parameters([
-            'token' => new external_value(PARAM_RAW, 'Purchase token'),
-            'itemid' => new external_value(PARAM_INT, 'The item id in the context of the component area'),
-            'customer' => new external_value(PARAM_RAW, 'Customer Id'),
             'component' => new external_value(PARAM_COMPONENT, 'The component name'),
             'paymentarea' => new external_value(PARAM_AREA, 'Payment area in the component'),
+            'itemid' => new external_value(PARAM_INT, 'The item id in the context of the component area'),
             'tid' => new external_value(PARAM_TEXT, 'unique transaction id'),
-            'ischeckstatus' => new external_value(PARAM_BOOL, 'If initial purchase or cron execution')
+            'token' => new external_value(PARAM_RAW, 'Purchase token'),
+            'customer' => new external_value(PARAM_RAW, 'Customer Id'),
+            'ischeckstatus' => new external_value(PARAM_BOOL, 'If initial purchase or cron execution'),
         ]);
     }
 
@@ -69,9 +70,17 @@ class transaction_complete extends external_api {
      * @param string $orderid mpay24 order ID
      * @return array
      */
-    public static function execute($token, $itemid, $customer, $component, $paymentarea, $tid, $ischeckstatus): array {
+
+
+    public static function execute(string $component, string $paymentarea, int $itemid, string $tid, string $token = '0',
+     string $customer = '0', bool $ischeckstatus = false, string $resourcepath = '', int $userid = 0): array {
 
         global $USER, $DB, $CFG, $DB;
+
+        if ($userid == 0) {
+            $userid = $USER->id;
+        }
+
         self::validate_parameters(self::execute_parameters(), [
             'token' => $token,
             'itemid' => $itemid,
@@ -82,6 +91,9 @@ class transaction_complete extends external_api {
             'ischeckstatus' => $ischeckstatus
         ]);
 
+        $itemid = (int)$itemid;
+
+        // 'local_shopping_cart' , '', 9,.
         $config = (object)helper::get_gateway_configuration($component, $paymentarea, $itemid, 'mpay24');
         $sandbox = $config->environment == 'sandbox';
 
@@ -102,8 +114,8 @@ class transaction_complete extends external_api {
             $token,
             $sandbox,
             $customer,
-            $config->clientid,
-            $config->secret,
+            strval($config->clientid),
+            strval($config->secret),
             $itemid,
             $tid
         );
@@ -153,10 +165,9 @@ class transaction_complete extends external_api {
 
                 // Check if order is existing.
 
-                $checkorder = $DB->get_record('paygw_mpay24_openorders', array('tid' => $transactionid, 'itemid' => $itemid,
-                'userid' => intval($USER->id)));
+                $checkorder = $DB->get_record('paygw_mpay24_openorders', array('tid' => $tid));
 
-                $existingdata = $DB->get_record('paygw_mpay24', array('mpay24_orderid' => $transactionid));
+                // $existingdata = $DB->get_record('paygw_mpay24', array('mpay24_orderid' => $transactionid));
 
                 if (!empty($existingdata) || empty($checkorder) ) {
                     // Purchase already stored.
@@ -171,7 +182,7 @@ class transaction_complete extends external_api {
                         $component,
                         $paymentarea,
                         $itemid,
-                        (int) $USER->id,
+                        (int) $userid,
                         $amount,
                         $currency,
                         'mpay24'
@@ -194,6 +205,23 @@ class transaction_complete extends external_api {
                         // Store original value.
                         $record->pboriginal = $brand;
 
+                        // Set status in open_orders to complete.
+                        if ($existingrecord = $DB->get_record('paygw_mpay24_openorders',
+                        ['tid' => $tid])) {
+                            $existingrecord->status = 3;
+                            $DB->update_record('paygw_mpay24_openorders', $existingrecord);
+                              // We trigger the payment_completed event.
+                            $context = context_system::instance();
+                                                $event = payment_completed::create([
+                                'context' => $context,
+                                'userid' => $userid,
+                                'other' => [
+                                'orderid' => $tid
+                                ]
+                                                ]);
+                            $event->trigger();
+                        }
+
                         $DB->insert_record('paygw_mpay24', $record);
                         // We trigger the payment_successful event.
                         $context = context_system::instance();
@@ -204,7 +232,7 @@ class transaction_complete extends external_api {
                         $event->trigger();
 
                         // The order is delivered.
-                        payment_helper::deliver_order($component, $paymentarea, $itemid, $paymentid, (int) $USER->id);
+                        payment_helper::deliver_order($component, $paymentarea, $itemid, $paymentid, (int) $userid);
 
                         // Delete transaction after its been delivered.
                         $DB->delete_records('paygw_mpay24_openorders', array('tid' => $transactionid));

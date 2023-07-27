@@ -40,12 +40,12 @@
 
 {{#js}}
     require(['paygw_mpay24/confirmpayment'], function(confirmpayment) {
-    confirmpayment.init('{{token}}',
-                        '{{itemid}}',
-                        '{{customer}}',
-                        '{{component}}',
+    confirmpayment.init('{{component}}',
                         '{{paymentarea}}',
+                        '{{itemid}}',
                         '{{tid}}',
+                        '{{token}}',
+                        '{{customer}}',
                         '{{ischeckstatus}}'
                         );
     });

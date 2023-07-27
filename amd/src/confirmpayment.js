@@ -25,14 +25,13 @@ import Ajax from 'core/ajax';
 import ModalFactory from 'core/modal_factory';
 import ModalEvents from 'core/modal_events';
 
-export const init = (token, itemid, customer, component, paymentarea, tid, ischeckstatus) => {
+export const init = (component, paymentarea, itemid, tid, token, customer, ischeckstatus) => {
 
 
     Ajax.call([{
         methodname: "paygw_mpay24_create_transaction_complete",
         args: {
-            token, itemid, customer, component, paymentarea, tid, ischeckstatus
-        },
+            component, paymentarea, itemid, tid, token, customer, ischeckstatus},
         done: function(data) {
 
             if (data.success !== true) {
@@ -78,9 +77,9 @@ export const init = (token, itemid, customer, component, paymentarea, tid, ische
                 location.href = data.url;
             }
         },
-        fail: function() {
+        fail: function(ex) {
             // eslint-disable-next-line no-console
-            // console.log("ex:" + ex);
+            console.log("ex:" + ex);
         },
     }]);
 

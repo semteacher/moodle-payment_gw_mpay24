@@ -29,13 +29,16 @@ namespace paygw_mpay24\external;
 
 
 use core_payment\helper;
+use context_system;
 use DateTime;
 use external_api;
 use external_function_parameters;
 use external_value;
 use external_single_structure;
 use paygw_mpay24\task\check_status;
+use local_shopping_cart\shopping_cart_history;
 use stdClass;
+use paygw_mpay24\event\payment_added;
 
 
 defined('MOODLE_INTERNAL') || die();
@@ -91,14 +94,38 @@ class get_config_for_js extends external_api {
         $string = bin2hex(openssl_random_pseudo_bytes(8));
         $now = new DateTime();
         $timestamp = $now->getTimestamp();
-        $tid = $string . $timestamp;
+        $amount = number_format($payable->get_amount(), 2);
 
+        $merchanttransactionid = $string . $timestamp;
         $record = new \stdClass();
-        $record->tid = $tid;
+        $record->tid = $merchanttransactionid;
         $record->itemid = $itemid;
         $record->userid = intval($USER->id);
+        $record->price = $amount;
+        $record->status = 0;
+        $record->timecreated = time();
+        $record->timemodified = time();
 
-        $DB->insert_record('paygw_mpay24_openorders', $record);
+        // $DB->insert_record('paygw_mpay24_openorders', $record);
+         // Check for duplicate.
+        if (!$existingrecord = $DB->get_record('paygw_mpay24_openorders', ['itemid' => $itemid, 'userid' => $USER->id])) {
+            $DB->insert_record('paygw_mpay24_openorders', $record);
+
+            // We trigger the payment_added event.
+            $context = context_system::instance();
+            $event = payment_added::create([
+                'context' => $context,
+                'userid' => $USER->id,
+                'other' => [
+                    'orderid' => $merchanttransactionid
+                ]
+            ]);
+            $event->trigger();
+        } else {
+            // If we already have an entry with the exact same itemid and userid, we actually will use the same merchant id.
+            // This will prevent a successful payment and we thus avoid duplicate entries in DB.
+            $merchanttransactionid = $existingrecord->tid;
+        }
 
         if ($environment == 'sandbox') {
             $mpay24 = new Mpay24($entityid, $secret, true);
@@ -128,8 +155,10 @@ class get_config_for_js extends external_api {
         $taskdata->customer = $config['clientid'];
         $taskdata->component = $component;
         $taskdata->paymentarea = $paymentarea;
-        $taskdata->tid = $tid;
+        $taskdata->tid = $merchanttransactionid;
         $taskdata->ischeckstatus = true;
+        $taskdata->resourcepath = '';
+        $taskdata->userid = $USER->id;
 
         $checkstatustask = new check_status();
         $checkstatustask->set_userid($userid);
@@ -147,7 +176,7 @@ class get_config_for_js extends external_api {
             'language' => $language,
             'token' => $token,
             'tokenizerlocation' => $tokenizerlocation,
-            'tid' => $tid,
+            'tid' => $merchanttransactionid,
 
         ];
     }

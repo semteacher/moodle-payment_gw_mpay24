@@ -95,7 +95,7 @@ function xmldb_paygw_mpay24_upgrade(int $oldversion): bool {
         upgrade_plugin_savepoint(true, 2023061200, 'paygw', 'mpay24');
     }
 
-    if ($oldversion < 2023072700   ) {
+    if ($oldversion < 2023072702  ) {
 
         // Define field timecreated to be added to paygw_mpay24_openorders.
         $table = new xmldb_table('paygw_mpay24_openorders');
@@ -106,14 +106,6 @@ function xmldb_paygw_mpay24_upgrade(int $oldversion): bool {
             $dbman->add_field($table, $field);
         }
 
-        // Mpay24 savepoint reached.
-        upgrade_plugin_savepoint(true, 2023072700 , 'paygw', 'mpay24');
-    }
-
-    if ($oldversion < 2023072700 ) {
-
-        // Define field timemodified to be added to paygw_mpay24_openorders.
-        $table = new xmldb_table('paygw_mpay24_openorders');
         $field = new xmldb_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'timecreated');
 
         // Conditionally launch add field timemodified.
@@ -122,7 +114,7 @@ function xmldb_paygw_mpay24_upgrade(int $oldversion): bool {
         }
 
         // Mpay24 savepoint reached.
-        upgrade_plugin_savepoint(true, 2023072700 , 'paygw', 'mpay24');
+        upgrade_plugin_savepoint(true, 2023072702 , 'paygw', 'mpay24');
     }
 
     return true;

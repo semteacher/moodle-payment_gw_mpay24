@@ -53,6 +53,7 @@ $string['proceed'] = 'Fortfahren';
 
 $string['payment_successful'] = 'Zahlung erfolgreich. Klicken sie auf "Fortfahren" um zu Ihrem Kurs weitergeleitet zu werden.';
 $string['payment_error'] = 'Ein Fehler ist bei der Zahlung mit mpay24 aufgetreten. Bitte versuchen sie es später erneut.';
+$string['delivery_error'] = 'Die Zahlung war erfolgreich, aber bei der Auslieferung gab es ein Problem. Bitte wenden Sie sich an den Support.';
 
 $string['other_options'] = "Andere Zahlungsarten";
 $string['more'] = "Mehr";

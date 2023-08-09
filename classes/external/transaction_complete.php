@@ -32,6 +32,7 @@ use external_api;
 use external_function_parameters;
 use external_value;
 use core_payment\helper as payment_helper;
+use paygw_mpay24\event\delivery_error;
 use paygw_mpay24\event\payment_error;
 use paygw_mpay24\event\payment_successful;
 use paygw_mpay24\mpay24_helper;
@@ -93,7 +94,6 @@ class transaction_complete extends external_api {
 
         $itemid = (int)$itemid;
 
-        // 'local_shopping_cart' , '', 9,.
         $config = (object)helper::get_gateway_configuration($component, $paymentarea, $itemid, 'mpay24');
         $sandbox = $config->environment == 'sandbox';
 
@@ -167,8 +167,6 @@ class transaction_complete extends external_api {
 
                 $checkorder = $DB->get_record('paygw_mpay24_openorders', array('tid' => $tid));
 
-                // $existingdata = $DB->get_record('paygw_mpay24', array('mpay24_orderid' => $transactionid));
-
                 if (!empty($existingdata) || empty($checkorder) ) {
                     // Purchase already stored.
                     $success = false;
@@ -206,36 +204,46 @@ class transaction_complete extends external_api {
                         $record->pboriginal = $brand;
 
                         // Set status in open_orders to complete.
-                        if ($existingrecord = $DB->get_record('paygw_mpay24_openorders',
-                        ['tid' => $tid])) {
-                            $existingrecord->status = 3;
+                        if ($existingrecord = $DB->get_record('paygw_mpay24_openorders', ['tid' => $tid])) {
+                            $existingrecord->status = 3; // 3 means complete.
                             $DB->update_record('paygw_mpay24_openorders', $existingrecord);
                               // We trigger the payment_completed event.
                             $context = context_system::instance();
-                                                $event = payment_completed::create([
+                            $event = payment_completed::create([
                                 'context' => $context,
                                 'userid' => $userid,
                                 'other' => [
-                                'orderid' => $tid
+                                    'orderid' => $tid
                                 ]
-                                                ]);
+                            ]);
                             $event->trigger();
                         }
 
                         $DB->insert_record('paygw_mpay24', $record);
+
                         // We trigger the payment_successful event.
                         $context = context_system::instance();
-                        $event = payment_successful::create(array('context' => $context, 'other' => [
-                        'message' => $message,
-                        'orderid' => $transactionid
-                        ]));
+                        $event = payment_successful::create([
+                            'context' => $context,
+                            'other' => [
+                                'message' => $message,
+                                'orderid' => $transactionid
+                            ]
+                        ]);
                         $event->trigger();
 
-                        // The order is delivered.
-                        payment_helper::deliver_order($component, $paymentarea, $itemid, $paymentid, (int) $userid);
-
-                        // Delete transaction after its been delivered.
-                        $DB->delete_records('paygw_mpay24_openorders', array('tid' => $transactionid));
+                        // If the delivery was not successful, we trigger an event.
+                        if (!payment_helper::deliver_order($component, $paymentarea, $itemid, $paymentid, (int) $userid)) {
+                            $context = context_system::instance();
+                            $event = delivery_error::create(array(
+                                'context' => $context,
+                                'other' => [
+                                    'message' => $message,
+                                    'orderid' => $tid
+                                ]
+                            ));
+                            $event->trigger();
+                        }
                     } catch (\Exception $e) {
                         debugging('Exception while trying to process payment: ' . $e->getMessage(), DEBUG_DEVELOPER);
                         $success = false;

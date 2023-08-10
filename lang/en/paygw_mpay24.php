@@ -49,6 +49,7 @@ $string['loading'] = 'Loading...';
 
 $string['payment_successful'] = 'Payment successful. Click to continue to your course.';
 $string['payment_error'] = 'An error occured during the payment. Please try again later.';
+$string['payment_alreadyexists'] = 'Payment not treated because it already exists.';
 $string['delivery_error'] = 'Your payment was successful, but there was an error during delivery. Please contact support.';
 
 $string['success'] = 'Success';

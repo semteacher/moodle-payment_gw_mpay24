@@ -82,6 +82,22 @@ class transaction_complete extends external_api {
             $userid = $USER->id;
         }
 
+        $successurl = helper::get_success_url($component, $paymentarea, $itemid)->__toString();
+        $serverurl = $CFG->wwwroot;
+
+        // We need to prevent duplicates, so check if the payment already exists!
+        if ($DB->get_records('payments', [
+            'component' => 'local_shopping_cart',
+            'itemid' => $itemid,
+            'userid' => $userid,
+        ])) {
+            return [
+                'url' => $successurl ?? $serverurl,
+                'success' => true,
+                'message' => get_string('payment_alreadyexists', 'paygw_mpay24'),
+            ];
+        }
+
         self::validate_parameters(self::execute_parameters(), [
             'token' => $token,
             'itemid' => $itemid,
@@ -103,9 +119,6 @@ class transaction_complete extends external_api {
         // Add surcharge if there is any.
         $surcharge = helper::get_gateway_surcharge('mpay24');
         $amount = helper::get_rounded_cost($payable->get_amount(), $currency, $surcharge);
-
-        $successurl = helper::get_success_url($component, $paymentarea, $itemid)->__toString();
-        $serverurl = $CFG->wwwroot;
 
         $mpay24helper = new mpay24_helper(
             $serverurl,

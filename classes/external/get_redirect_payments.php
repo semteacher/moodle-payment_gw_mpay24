@@ -87,7 +87,7 @@ class get_redirect_payments extends external_api {
         $mdxi = new Mpay24Order();
         $mdxi->Order->Tid = $tid;
         $mdxi->Order->Price = $price;
-        // TEST hardcoded
+        // TEST hardcoded.
         $mdxi->Order->URL->Success      = $redirecturl;
         $mdxi->Order->URL->Error        = $redirecturl;
         $mdxi->Order->URL->Confirmation = $redirecturl;

@@ -26,8 +26,6 @@ declare(strict_types=1);
 
 namespace paygw_mpay24\external;
 
-
-
 use core_payment\helper;
 use context_system;
 use DateTime;
@@ -39,7 +37,6 @@ use paygw_mpay24\task\check_status;
 use local_shopping_cart\shopping_cart_history;
 use stdClass;
 use paygw_mpay24\event\payment_added;
-
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -106,8 +103,7 @@ class get_config_for_js extends external_api {
         $record->timecreated = time();
         $record->timemodified = time();
 
-        // $DB->insert_record('paygw_mpay24_openorders', $record);
-         // Check for duplicate.
+        // Check for duplicate.
         if (!$existingrecord = $DB->get_record('paygw_mpay24_openorders', ['itemid' => $itemid, 'userid' => $USER->id])) {
             $DB->insert_record('paygw_mpay24_openorders', $record);
 

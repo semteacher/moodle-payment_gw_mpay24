@@ -16,14 +16,16 @@
 /**
  * Add dates to option.
  *
- * @package local_musi
- * @copyright 2022 Georg Maißer <info@wunderbyte.at>
+ * @package paygw_mpay24
+ * @copyright 2023 Wunderbyte GmbH <info@wunderbyte.at>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 use paygw_mpay24\output\checkout;
 
 require_once(__DIR__ . '/../../../config.php');
+
+require_login();
 
 global $DB, $PAGE, $OUTPUT, $USER;
 
@@ -34,8 +36,6 @@ $tid = required_param('tid', PARAM_RAW);
 $component = required_param('component', PARAM_RAW);
 $paymentarea = required_param('paymentarea', PARAM_RAW);
 $ischeckstatus = required_param('ischeckstatus', PARAM_BOOL);
-
-// $ischeckstatus = false;
 
 if (!$context = context_system::instance()) {
     throw new moodle_exception('badcontext');

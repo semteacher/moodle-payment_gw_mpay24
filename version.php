@@ -18,13 +18,13 @@
  * Version information
  *
  * @package    paygw_mpay24
- * @copyright  2022 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @copyright  2023 Wunderbyte Gmbh <info@wunderbyte.at>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->release = 'v0.0.6';
-$plugin->version   = 2023072702;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->release = 'v0.0.7';
+$plugin->version   = 2023081100;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2021051100;        // Requires this Moodle version.
 $plugin->component = 'paygw_mpay24';       // Full name of the plugin (used for diagnostics).

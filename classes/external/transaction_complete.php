@@ -277,12 +277,15 @@ class transaction_complete extends external_api {
         if (!$success) {
             // We trigger the payment_successful event.
             $context = context_system::instance();
-            $event = payment_error::create(array('context' => $context, 'other' => [
-                'message' => $message,
-                'orderid' => $transactionid,
-                'itemid' => $itemid,
-                'component' => $component,
-                'paymentarea' => $paymentarea]));
+            $event = payment_error::create(array(
+                'context' => $context,
+                'userid' => $userid,
+                'other' => [
+                    'message' => $message,
+                    'orderid' => $transactionid,
+                    'itemid' => $itemid,
+                    'component' => $component,
+                    'paymentarea' => $paymentarea]));
             $event->trigger();
         }
 

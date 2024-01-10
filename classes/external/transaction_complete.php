@@ -58,6 +58,9 @@ class transaction_complete extends external_api {
             'token' => new external_value(PARAM_RAW, 'Purchase token'),
             'customer' => new external_value(PARAM_RAW, 'Customer Id'),
             'ischeckstatus' => new external_value(PARAM_BOOL, 'If initial purchase or cron execution'),
+            'resourcepath' => new external_value(PARAM_TEXT, 'The order id coming back from the payment provider',
+                VALUE_DEFAULT, ''),
+            'userid' => new external_value(PARAM_INT, 'user id', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -66,13 +69,16 @@ class transaction_complete extends external_api {
      * This function does not take cost as a parameter as we cannot rely on any provided value.
      *
      * @param string $component Name of the component that the itemid belongs to
-     * @param string $paymentarea
+     * @param string $paymentarea payment area
      * @param int $itemid An internal identifier that is used by the component
-     * @param string $orderid mpay24 order ID
+     * @param string $tid unique transaction id
+     * @param string $token
+     * @param string $customer
+     * @param bool $ischeckstatus
+     * @param string $resourcepath
+     * @param int $userid
      * @return array
      */
-
-
     public static function execute(string $component, string $paymentarea, int $itemid, string $tid, string $token = '0',
      string $customer = '0', bool $ischeckstatus = false, string $resourcepath = '', int $userid = 0): array {
 
@@ -99,13 +105,15 @@ class transaction_complete extends external_api {
         }
 
         self::validate_parameters(self::execute_parameters(), [
-            'token' => $token,
-            'itemid' => $itemid,
-            'customer' => $customer,
             'component' => $component,
             'paymentarea' => $paymentarea,
+            'itemid' => $itemid,
             'tid' => $tid,
-            'ischeckstatus' => $ischeckstatus
+            'token' => $token,
+            'customer' => $customer,
+            'ischeckstatus' => $ischeckstatus,
+            'resourcepath' => $resourcepath,
+            'userid' => $userid,
         ]);
 
         $itemid = (int)$itemid;

@@ -63,7 +63,7 @@ class check_status extends \core\task\adhoc_task {
 
         $userid = $this->get_userid();
 
-        $result = transaction_complete::execute(
+        transaction_complete::execute(
             $taskdata->component,
             $taskdata->paymentarea,
             $taskdata->itemid,

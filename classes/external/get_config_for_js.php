@@ -34,7 +34,6 @@ use external_function_parameters;
 use external_value;
 use external_single_structure;
 use paygw_mpay24\task\check_status;
-use local_shopping_cart\shopping_cart_history;
 use stdClass;
 use paygw_mpay24\event\payment_added;
 

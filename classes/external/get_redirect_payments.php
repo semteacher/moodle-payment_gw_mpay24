@@ -25,15 +25,10 @@
 declare(strict_types=1);
 namespace paygw_mpay24\external;
 
-use context_system;
 use core_payment\helper;
 use external_api;
 use external_function_parameters;
 use external_value;
-use core_payment\helper as payment_helper;
-use paygw_mpay24\event\payment_error;
-use paygw_mpay24\event\payment_successful;
-use paygw_mpay24\mpay24_helper;
 
 defined('MOODLE_INTERNAL') || die();
 

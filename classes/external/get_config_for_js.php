@@ -45,6 +45,9 @@ require_once($CFG->dirroot . '/payment/gateway/mpay24/thirdparty/mpay24/bootstra
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Order;
 
+/**
+ * Get config for js class.
+ */
 class get_config_for_js extends external_api {
 
     /**
@@ -70,7 +73,7 @@ class get_config_for_js extends external_api {
      * @return string[]
      */
     public static function execute(string $component, string $paymentarea, int $itemid): array {
-        GLOBAL $CFG, $USER, $SESSION, $DB;
+        global $CFG, $USER, $SESSION, $DB;
         self::validate_parameters(self::execute_parameters(), [
             'component' => $component,
             'paymentarea' => $paymentarea,
@@ -112,8 +115,8 @@ class get_config_for_js extends external_api {
                 'context' => $context,
                 'userid' => $USER->id,
                 'other' => [
-                    'orderid' => $merchanttransactionid
-                ]
+                    'orderid' => $merchanttransactionid,
+                ],
             ]);
             $event->trigger();
         } else {

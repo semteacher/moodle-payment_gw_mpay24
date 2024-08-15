@@ -47,7 +47,9 @@ require_once($CFG->libdir . '/externallib.php');
 if (!interface_exists(interface_transaction_complete::class)) {
     class_alias(mpay24_interface_transaction_complete::class, interface_transaction_complete::class);
 }
-
+/**
+ * Transaction complete class.
+ */
 class transaction_complete extends external_api implements interface_transaction_complete {
 
     /**
@@ -240,8 +242,8 @@ class transaction_complete extends external_api implements interface_transaction
                                 'context' => $context,
                                 'userid' => $userid,
                                 'other' => [
-                                    'orderid' => $tid
-                                ]
+                                    'orderid' => $tid,
+                                ],
                             ]);
                             $event->trigger();
                         }
@@ -254,8 +256,8 @@ class transaction_complete extends external_api implements interface_transaction
                             'context' => $context,
                             'other' => [
                                 'message' => $message,
-                                'orderid' => $transactionid
-                            ]
+                                'orderid' => $transactionid,
+                            ],
                         ]);
                         $event->trigger();
 
@@ -266,8 +268,8 @@ class transaction_complete extends external_api implements interface_transaction
                                 'context' => $context,
                                 'other' => [
                                     'message' => $message,
-                                    'orderid' => $tid
-                                ]
+                                    'orderid' => $tid,
+                                ],
                             ));
                             $event->trigger();
                         }

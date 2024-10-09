@@ -17,9 +17,10 @@
 /**
  * Strings for component 'paygw_mpay24', language 'en'
  *
- * @package    paygw_mpay24
- * @copyright  2022 Wunderbyte Gmbh <info@wunderbyte.at>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package paygw_mpay24
+ * @author Georg Maißer
+ * @copyright 2022 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['amountmismatch'] = 'The amount you attempted to pay does not match the required fee. Your account has not been debited.';
@@ -31,9 +32,9 @@ $string['checkout'] = 'Checkout';
 $string['clientid'] = 'Client ID';
 $string['clientid_help'] = 'The client ID that mpay24 generated for your application.';
 $string['delivery_error'] = 'Your payment was successful, but there was an error during delivery. Please contact support.';
+$string['EPS'] = "EP";
 $string['environment'] = 'Environment';
 $string['environment_help'] = 'You can set this to Sandbox if you are using sandbox accounts (for testing purpose only).';
-$string['EPS'] = "EP";
 $string['error'] = 'Error';
 $string['gatewaydescription'] = 'mpay24 is an authorised payment gateway provider for processing credit card transactions.';
 $string['gatewayname'] = 'mpay24';
@@ -45,10 +46,10 @@ $string['more'] = "More";
 $string['other_options'] = "Other payment options";
 $string['paycredit'] = "Pay with creditcard";
 $string['payment_added'] = 'Payment transaction was started. (Open order was added.)';
-$string['payment_completed'] = 'Payment transaction was completed.';
-$string['payment_successful'] = 'Payment successful. Click to continue to your course.';
-$string['payment_error'] = 'An error occured during the payment. Please try again later.';
 $string['payment_alreadyexists'] = 'Payment not treated because it already exists.';
+$string['payment_completed'] = 'Payment transaction was completed.';
+$string['payment_error'] = 'An error occured during the payment. Please try again later.';
+$string['payment_successful'] = 'Payment successful. Click to continue to your course.';
 $string['paymentnotcleared'] = 'Payment not cleared by mpay24. Please try again later.';
 $string['pluginname'] = 'mpay24';
 $string['pluginname_desc'] = 'The mpay24 plugin allows you to receive payments via mpay24.';
@@ -62,4 +63,3 @@ $string['secret_help'] = 'The secret that mpay24 generated for your application.
 $string['success'] = 'Success';
 $string['unknownbrand'] = "UK";
 $string['VISA'] = "VC";
-

@@ -17,9 +17,10 @@
 /**
  * Contains helper class to work with mpay24 REST API.
  *
- * @package    core_payment
- * @copyright  2022 Wunderbyte Gmbh <info@wunderbyte.at>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package paygw_mpay24
+ * @author Georg Maißer
+ * @copyright 2022 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace paygw_mpay24;
@@ -90,12 +91,20 @@ class mpay24_helper {
     /**
      * helper constructor.
      *
-     * @param string $clientid The client id.
-     * @param string $secret mpay24 secret.
-     * @param bool $sandbox Whether we are working with the sandbox environment or not.
+     * @param string $baseurl
+     * @param float $amount
+     * @param string $currency
+     * @param string $token
+     * @param bool $sandbox
+     * @param string $customer
+     * @param string $clientid
+     * @param string $secret
+     * @param int $itemid
+     * @param string $tid
+     *
      */
     public function __construct(string $baseurl, float $amount, string $currency, string $token, bool $sandbox, string $customer,
-    string $clientid, string $secret, int $itemid, string $tid ) {
+    string $clientid, string $secret, int $itemid, string $tid) {
         $this->currency = $currency;
         $this->baseurl = $baseurl;
         $this->token = $token;
@@ -117,19 +126,19 @@ class mpay24_helper {
             $mpay24 = new Mpay24($this->clientid, $this->secret, false);
         }
 
-        $payment = array(
+        $payment = [
             "amount" => $this->amount,
             "currency" => $this->currency,
-            "token" => $this->token
-          );
+            "token" => $this->token,
+        ];
 
-          $additional = array(
+        $additional = [
             "successURL"   => $succesurl,
-          );
+        ];
 
-          $result = $mpay24->payment("TOKEN", $this->tid, $payment, $additional);
+        $result = $mpay24->payment("TOKEN", $this->tid, $payment, $additional);
 
-          return $result;
+        return $result;
     }
 
     public function check_payment_status($tid) {

@@ -17,9 +17,10 @@
 /**
  * Strings for component 'paygw_mpay24', language 'en'
  *
- * @package    paygw_mpay24
- * @copyright  2022 Wunderbyte Gmbh <info@wunderbyte.at>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package paygw_mpay24
+ * @author Georg Maißer
+ * @copyright 2022 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['amountmismatch'] = 'Der Betrag, den Sie zu zahlen versuchen, entspricht nicht dem gespeicherten Betrag. Ihr Konto wurde nicht belastet.';
@@ -31,9 +32,9 @@ $string['checkout'] = 'Checkout';
 $string['clientid'] = 'Kunden ID';
 $string['clientid_help'] = 'Die Kunden ID die mpay24 für Ihre Seite generiert hat.';
 $string['delivery_error'] = 'Die Zahlung war erfolgreich, aber bei der Auslieferung gab es ein Problem. Bitte wenden Sie sich an den Support.';
+$string['EPS'] = "EP";
 $string['environment'] = 'Umgebung.';
 $string['environment_help'] = 'You can set this to Sandbox if you are using sandbox accounts (for testing purpose only).';
-$string['EPS'] = "EP";
 $string['error'] = 'Fehler';
 $string['gatewaydescription'] = 'mpay24 ist ein authorisierter Zahlungsanbieter um Ihre Kreditkartenzahlung abzuwickeln.';
 $string['gatewayname'] = 'mpay24';
@@ -45,10 +46,10 @@ $string['more'] = "Mehr";
 $string['other_options'] = "Andere Zahlungsarten";
 $string['paycredit'] = "Mit Kreditkarte zahlen";
 $string['payment_added'] = 'Zahlungstransaktion wurde gestartet. (Offener Auftrag wurde angelegt.)';
-$string['payment_completed'] = 'Zahlungstransaktion wurde abgeschlossen.';
-$string['payment_successful'] = 'Zahlung erfolgreich. Klicken sie auf "Fortfahren" um zu Ihrem Kurs weitergeleitet zu werden.';
-$string['payment_error'] = 'Ein Fehler ist bei der Zahlung mit mpay24 aufgetreten. Bitte versuchen sie es später erneut.';
 $string['payment_alreadyexists'] = 'Zahlung nicht bearbeitet, da sie bereits existiert.';
+$string['payment_completed'] = 'Zahlungstransaktion wurde abgeschlossen.';
+$string['payment_error'] = 'Ein Fehler ist bei der Zahlung mit mpay24 aufgetreten. Bitte versuchen sie es später erneut.';
+$string['payment_successful'] = 'Zahlung erfolgreich. Klicken sie auf "Fortfahren" um zu Ihrem Kurs weitergeleitet zu werden.';
 $string['paymentnotcleared'] = 'Zahlung wurde von mpay24 nicht akzeptiert.';
 $string['pluginname'] = 'mpay24';
 $string['pluginname_desc'] = 'Das mpay24 plugin erlaubt es, Zahlungen mittels mpay24 zu erhalten.';
@@ -62,6 +63,3 @@ $string['secret_help'] = 'Der Access-Token den mpay24 für diese Anwendung berei
 $string['success'] = 'Erfolg';
 $string['unknownbrand'] = "UK";
 $string['VISA'] = "VC";
-
-
-

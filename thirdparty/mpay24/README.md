@@ -63,19 +63,19 @@ $token = $tokenizer->getToken();
 
 [Creditcard payment with a token](https://docs.mpay24.com/docs/tokenizer-integration)
 ```php
-$payment = array(
+$payment = [
   "amount" => "100",
   "currency" => "EUR",
   "token" => $_POST['token']
-);
+];
 $result = $mpay24->payment("TOKEN", "123 TID", $payment);
 ```
 [Paypal payment](https://docs.mpay24.com/docs/paypal)
 ```php
-$payment = array(
+$payment = [
   "amount" => "100",
   "currency" => "EUR"
-);
+];
 $result = $mpay24->payment("PAYPAL", "123 TID", $payment);
 ```
 

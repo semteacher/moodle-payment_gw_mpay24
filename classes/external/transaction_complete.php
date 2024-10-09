@@ -194,7 +194,7 @@ class transaction_complete extends external_api implements interface_transaction
 
                 // Check if order is existing.
 
-                $checkorder = $DB->get_record('paygw_mpay24_openorders', array('tid' => $tid));
+                $checkorder = $DB->get_record('paygw_mpay24_openorders', ['tid' => $tid]);
 
                 if (!empty($existingdata) || empty($checkorder) ) {
                     // Purchase already stored.
@@ -264,13 +264,13 @@ class transaction_complete extends external_api implements interface_transaction
                         // If the delivery was not successful, we trigger an event.
                         if (!payment_helper::deliver_order($component, $paymentarea, $itemid, $paymentid, (int) $userid)) {
                             $context = context_system::instance();
-                            $event = delivery_error::create(array(
+                            $event = delivery_error::create([
                                 'context' => $context,
                                 'other' => [
                                     'message' => $message,
                                     'orderid' => $tid,
                                 ],
-                            ));
+                            ]);
                             $event->trigger();
                         }
                     } catch (\Exception $e) {
@@ -293,7 +293,7 @@ class transaction_complete extends external_api implements interface_transaction
         if (!$success) {
             // We trigger the payment_successful event.
             $context = context_system::instance();
-            $event = payment_error::create(array(
+            $event = payment_error::create([
                 'context' => $context,
                 'userid' => $userid,
                 'other' => [
@@ -301,7 +301,8 @@ class transaction_complete extends external_api implements interface_transaction
                     'orderid' => $transactionid,
                     'itemid' => $itemid,
                     'component' => $component,
-                    'paymentarea' => $paymentarea]));
+                    'paymentarea' => $paymentarea],
+                ]);
             $event->trigger();
 
             // We need to transform the success url to a "no success url".

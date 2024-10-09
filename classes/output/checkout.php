@@ -17,7 +17,7 @@
 /**
  * This file contains the definition for the renderable classes for the booking instance
  *
- * @package   local_musi
+ * @package   paygw_mpay24
  * @copyright 2021 Georg Maißer {@link http://www.wunderbyte.at}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,7 +34,8 @@ use core_payment\helper;
  * This class prepares data for displaying a booking option instance
  *
  * @package paygw_mpay24
- * @copyright 2022 Georg Maißer {@link http://www.wunderbyte.at}
+ * @author Georg Maißer
+ * @copyright 2022 Wunderbyte Gmbh <info@wunderbyte.at>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class checkout implements renderable, templatable {
@@ -44,8 +45,24 @@ class checkout implements renderable, templatable {
 
     /**
      * In the Constructor, we gather all the data we need ans store it in the data property.
+     *
+     * @param string $token
+     * @param int $itemid
+     * @param string $customer
+     * @param string $component
+     * @param string $paymentarea
+     * @param string $tid
+     * @param bool $ischeckstatus
+     *
      */
-    public function __construct($token, $itemid, $customer, $component, $paymentarea, $tid, $ischeckstatus) {
+    public function __construct(
+        string $token,
+        int $itemid,
+        string $customer,
+        string $component,
+        string $paymentarea,
+        string $tid,
+        bool $ischeckstatus) {
 
         $this->data['token'] = $token;
         $this->data['itemid'] = $itemid;

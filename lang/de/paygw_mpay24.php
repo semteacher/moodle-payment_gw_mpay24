@@ -27,46 +27,41 @@ $string['authorising'] = 'Authorisiere die Zahlung. Bitte warten...';
 $string['brandname'] = 'Markenname';
 $string['brandname_help'] = 'Ein optionaler Name der den Namen Payiunity auf der Zahlungsseite ersetzt.';
 $string['cannotfetchorderdetails'] = 'Konnte keine Zahlungsdetails von mpay24 erhalten. Ihr Konto wurde nicht belastet.';
+$string['checkout'] = 'Checkout';
 $string['clientid'] = 'Kunden ID';
 $string['clientid_help'] = 'Die Kunden ID die mpay24 für Ihre Seite generiert hat.';
+$string['delivery_error'] = 'Die Zahlung war erfolgreich, aber bei der Auslieferung gab es ein Problem. Bitte wenden Sie sich an den Support.';
 $string['environment'] = 'Umgebung.';
 $string['environment_help'] = 'You can set this to Sandbox if you are using sandbox accounts (for testing purpose only).';
+$string['EPS'] = "EP";
+$string['error'] = 'Fehler';
 $string['gatewaydescription'] = 'mpay24 ist ein authorisierter Zahlungsanbieter um Ihre Kreditkartenzahlung abzuwickeln.';
 $string['gatewayname'] = 'mpay24';
 $string['internalerror'] = 'Ein interner Fehler ist aufgetreten. Bitte kontaktieren Sie uns.';
 $string['live'] = 'Live';
-$string['paymentnotcleared'] = 'Zahlung wurde von mpay24 nicht akzeptiert.';
-$string['pluginname'] = 'mpay24';
-$string['pluginname_desc'] = 'Das mpay24 plugin erlaubt es, Zahlungen mittels mpay24 zu erhalten.';
-$string['privacy:metadata'] = 'Das mpay24 plugin speichert keine persönlichen Daten.';
-$string['repeatedorder'] = 'Der Auftrag wurde bereits früher bearbeitet.';
-$string['sandbox'] = 'Sandbox';
-$string['secret'] = 'Access Token';
-$string['secret_help'] = 'Der Access-Token den mpay24 für diese Anwendung bereitstellt.';
-
-$string['checkout'] = 'Checkout';
 $string['loading'] = 'Laden...';
-
-$string['success'] = 'Erfolg';
-$string['error'] = 'Fehler';
-$string['proceed'] = 'Fortfahren';
-
+$string['MASTERCARD'] = "MC";
+$string['more'] = "Mehr";
+$string['other_options'] = "Andere Zahlungsarten";
+$string['paycredit'] = "Mit Kreditkarte zahlen";
 $string['payment_added'] = 'Zahlungstransaktion wurde gestartet. (Offener Auftrag wurde angelegt.)';
 $string['payment_completed'] = 'Zahlungstransaktion wurde abgeschlossen.';
 $string['payment_successful'] = 'Zahlung erfolgreich. Klicken sie auf "Fortfahren" um zu Ihrem Kurs weitergeleitet zu werden.';
 $string['payment_error'] = 'Ein Fehler ist bei der Zahlung mit mpay24 aufgetreten. Bitte versuchen sie es später erneut.';
 $string['payment_alreadyexists'] = 'Zahlung nicht bearbeitet, da sie bereits existiert.';
-$string['delivery_error'] = 'Die Zahlung war erfolgreich, aber bei der Auslieferung gab es ein Problem. Bitte wenden Sie sich an den Support.';
-
-$string['other_options'] = "Andere Zahlungsarten";
-$string['more'] = "Mehr";
-
+$string['paymentnotcleared'] = 'Zahlung wurde von mpay24 nicht akzeptiert.';
+$string['pluginname'] = 'mpay24';
+$string['pluginname_desc'] = 'Das mpay24 plugin erlaubt es, Zahlungen mittels mpay24 zu erhalten.';
+$string['proceed'] = 'Fortfahren';
+$string['privacy:metadata'] = 'Das mpay24 plugin speichert keine persönlichen Daten.';
 $string['quick_checkout'] = "Schneller Checkout";
-$string['paycredit'] = "Mit Kreditkarte zahlen";
-
+$string['repeatedorder'] = 'Der Auftrag wurde bereits früher bearbeitet.';
+$string['sandbox'] = 'Sandbox';
+$string['secret'] = 'Access Token';
+$string['secret_help'] = 'Der Access-Token den mpay24 für diese Anwendung bereitstellt.';
+$string['success'] = 'Erfolg';
 $string['unknownbrand'] = "UK";
-$string['MASTERCARD'] = "MC";
 $string['VISA'] = "VC";
-$string['EPS'] = "EP";
+
 
 

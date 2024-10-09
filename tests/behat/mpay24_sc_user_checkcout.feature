@@ -1,7 +1,7 @@
 @paygw @paygw_mpay24 @javascript
-Feature: PayUnity basic configuration and useage by user
+Feature: MPay24 basic configuration and useage by user
   In order buy shopping_cart items as a user
-  I configure PayOne in background to use company corporative account.
+  I configure MPay24 in background to use company corporative account.
 
   Background:
     Given the following "users" exist:
@@ -29,7 +29,7 @@ Feature: PayUnity basic configuration and useage by user
       | MPay24  |
 
   @javascript
-  Scenario: PayOne: user select two items and pay via card using PayOne
+  Scenario: MPay24: user select two items and pay via card using MPay24
     Given I log in as "user1"
     And Shopping cart has been cleaned for user "user1"
     And Testitem "1" has been put in shopping cart of user "user1"

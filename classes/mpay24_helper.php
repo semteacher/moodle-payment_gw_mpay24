@@ -35,7 +35,17 @@ require_once($CFG->dirroot . '/payment/gateway/mpay24/thirdparty/mpay24/bootstra
 
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Order;
+use Mpay24\Responses\AcceptPaymentResponse;
+use Mpay24\Responses\TransactionStatusResponse;
 
+/**
+ * Helper class to work with mpay24 REST API.
+ *
+ * @package paygw_mpay24
+ * @author Georg Maißer
+ * @copyright 2022 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mpay24_helper {
 
     /**
@@ -59,7 +69,7 @@ class mpay24_helper {
     private $token;
 
     /**
-     * @var boolean sandbox
+     * @var bool sandbox
      */
     private $sandbox;
 
@@ -117,7 +127,15 @@ class mpay24_helper {
         $this->tid = $tid;
     }
 
-    public function pay_token($succesurl) {
+    /**
+     * Pay token
+     *
+     * @param string $succesurl
+     *
+     * @return AcceptPaymentResponse
+     *
+     */
+    public function pay_token(string $succesurl): AcceptPaymentResponse {
         global $CFG;
 
         if ($this->sandbox) {
@@ -141,14 +159,22 @@ class mpay24_helper {
         return $result;
     }
 
-    public function check_payment_status($tid) {
+    /**
+     * Check payment status
+     *
+     * @param string $tid
+     *
+     * @return TransactionStatusResponse
+     *
+     */
+    public function check_payment_status($tid): TransactionStatusResponse {
         if ($this->sandbox) {
             $mpay24 = new Mpay24($this->clientid, $this->secret, true);
         } else {
             $mpay24 = new Mpay24($this->clientid, $this->secret, false);
         }
 
-        $status = $mpay24->paymentStatusByTID($tid);
+        $status = $mpay24->paymentStatusByTID( $tid);
         return $status;
     }
 }

@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * The payment_successful event.
  *
- * @package mod_booking
- * @copyright 2014 David Bogner, http://www.edulabs.org
+ * @package paygw_mpay24
+ * @copyright 2023 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @author Bernhard Fischer
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace paygw_mpay24\event;
@@ -28,26 +28,51 @@ namespace paygw_mpay24\event;
  * The payment_successful event class.
  *
  * @property-read array $other { Extra information about event. }
- * @since Moodle 3.11
- * @copyright 2022 Georg Maißer <georg.maisser@wunderbyte.at>
+ * @package paygw_mpay24
+ * @copyright 2023 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @author Bernhard Fischer
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class payment_successful extends \core\event\base {
 
-    protected function init() {
+    /**
+     * Init
+     *
+     * @return void
+     *
+     */
+    protected function init(): void {
         $this->data['crud'] = 'c';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
     }
 
-    public static function get_name() {
+    /**
+     * Get name
+     *
+     * @return string
+     *
+     */
+    public static function get_name(): string {
         return get_string('payment_successful', 'paygw_mpay24');
     }
 
-    public function get_description() {
+    /**
+     * Get_description
+     *
+     * @return string
+     *
+     */
+    public function get_description(): string {
         return "The user with the id {$this->userid} has successfully paid for " . $this->other['orderid'];
     }
 
-    public function get_url() {
+    /**
+     * Get url
+     *
+     * @return \moodle_url
+     *
+     */
+    public function get_url(): \moodle_url {
         return new \moodle_url('/payment/gateway/mpay24/checkout.php');
     }
 }

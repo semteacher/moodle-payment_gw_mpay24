@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * The delivery_error event for mpay24
  *
@@ -35,21 +34,45 @@ namespace paygw_mpay24\event;
  */
 class delivery_error extends \core\event\base {
 
-    protected function init() {
+    /**
+     * Init
+     *
+     * @return void
+     *
+     */
+    protected function init(): void {
         $this->data['crud'] = 'c';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
     }
 
-    public static function get_name() {
+    /**
+     * Get name
+     *
+     * @return string
+     *
+     */
+    public static function get_name(): string {
         return get_string('delivery_error', 'paygw_mpay24');
     }
 
-    public function get_description() {
+    /**
+     * Get_description
+     *
+     * @return string
+     *
+     */
+    public function get_description(): string {
         return "The user with the id {$this->userid} has tried to pay, but an error occured on delivery: " .
             $this->other['message'];
     }
 
-    public function get_url() {
+    /**
+     * Get url
+     *
+     * @return \moodle_url
+     *
+     */
+    public function get_url(): \moodle_url {
         return new \moodle_url('/payment/gateway/mpay24/checkout.php');
     }
 }

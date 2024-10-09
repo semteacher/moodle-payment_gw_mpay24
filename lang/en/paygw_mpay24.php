@@ -23,6 +23,9 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['EPS'] = "EP";
+$string['MASTERCARD'] = "MC";
+$string['VISA'] = "VC";
 $string['amountmismatch'] = 'The amount you attempted to pay does not match the required fee. Your account has not been debited.';
 $string['authorising'] = 'Authorising the payment. Please wait...';
 $string['brandname'] = 'Brand name';
@@ -32,7 +35,6 @@ $string['checkout'] = 'Checkout';
 $string['clientid'] = 'Client ID';
 $string['clientid_help'] = 'The client ID that mpay24 generated for your application.';
 $string['delivery_error'] = 'Your payment was successful, but there was an error during delivery. Please contact support.';
-$string['EPS'] = "EP";
 $string['environment'] = 'Environment';
 $string['environment_help'] = 'You can set this to Sandbox if you are using sandbox accounts (for testing purpose only).';
 $string['error'] = 'Error';
@@ -41,7 +43,6 @@ $string['gatewayname'] = 'mpay24';
 $string['internalerror'] = 'An internal error has occurred. Please contact us.';
 $string['live'] = 'Live';
 $string['loading'] = 'Loading...';
-$string['MASTERCARD'] = "MC";
 $string['more'] = "More";
 $string['other_options'] = "Other payment options";
 $string['paycredit'] = "Pay with creditcard";
@@ -62,4 +63,3 @@ $string['secret'] = 'Secret';
 $string['secret_help'] = 'The secret that mpay24 generated for your application.';
 $string['success'] = 'Success';
 $string['unknownbrand'] = "UK";
-$string['VISA'] = "VC";

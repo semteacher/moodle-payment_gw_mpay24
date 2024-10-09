@@ -22,7 +22,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-function xmldb_paygw_mpay24_install() {
+/**
+ * DB Install
+ *
+ * @return void
+ *
+ */
+function xmldb_paygw_mpay24_install(): void {
     global $CFG;
 
     // Enable the mpay24 payment gateway on installation. It still needs to be configured and enabled for accounts.

@@ -49,7 +49,7 @@ function xmldb_paygw_mpay24_upgrade(int $oldversion): bool {
         upgrade_plugin_savepoint(true, 2022080800, 'paygw', 'mpay24');
     }
 
-    if ($oldversion < 2022080800) {
+    if ($oldversion < 2022080801) {
 
         // Define field pboriginal to be added to paygw_mpay24.
         $table = new xmldb_table('paygw_mpay24');
@@ -61,7 +61,7 @@ function xmldb_paygw_mpay24_upgrade(int $oldversion): bool {
         }
 
         // Mpay24 savepoint reached.
-        upgrade_plugin_savepoint(true, 2022080800, 'paygw', 'mpay24');
+        upgrade_plugin_savepoint(true, 2022080801, 'paygw', 'mpay24');
     }
 
     if ($oldversion < 2023061200) {

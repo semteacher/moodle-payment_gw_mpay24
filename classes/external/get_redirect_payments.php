@@ -38,6 +38,13 @@ require_once($CFG->dirroot . '/payment/gateway/mpay24/thirdparty/mpay24/bootstra
 use Mpay24\Mpay24;
 use Mpay24\Mpay24Order;
 
+/**
+ * Class contains a list of webservice functions related to the mpay24 payment gateway.
+ *
+ * @package    paygw_mpay24
+ * @copyright  2022 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class get_redirect_payments extends external_api {
 
     /**
@@ -45,7 +52,7 @@ class get_redirect_payments extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function execute_parameters() {
+    public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'component' => new external_value(PARAM_COMPONENT, 'The component name'),
             'paymentarea' => new external_value(PARAM_AREA, 'Payment area in the component'),
@@ -54,7 +61,18 @@ class get_redirect_payments extends external_api {
         ]);
     }
 
-    public static function execute($component, $paymentarea, $itemid, $tid) {
+    /**
+     * [Description for execute]
+     *
+     * @param string $component
+     * @param string $paymentarea
+     * @param int $itemid
+     * @param string $tid
+     *
+     * @return array
+     *
+     */
+    public static function execute(string $component, string $paymentarea, int $itemid, string $tid): array {
         GLOBAL $CFG;
 
         self::validate_parameters(self::execute_parameters(), [
@@ -100,9 +118,9 @@ class get_redirect_payments extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function execute_returns() {
+    public static function execute_returns(): external_function_parameters {
         return new external_function_parameters([
-            'url' => new external_value(PARAM_URL, 'Redirect URL.')
+            'url' => new external_value(PARAM_URL, 'Redirect URL.'),
         ]);
     }
 }

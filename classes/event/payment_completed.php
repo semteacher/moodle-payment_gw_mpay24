@@ -34,21 +34,45 @@ namespace paygw_mpay24\event;
  */
 class payment_completed extends \core\event\base {
 
-    protected function init() {
+    /**
+     * Init
+     *
+     * @return void
+     *
+     */
+    protected function init(): void {
         $this->data['crud'] = 'c';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
     }
 
-    public static function get_name() {
+    /**
+     * Get name
+     *
+     * @return string
+     *
+     */
+    public static function get_name(): string {
         return get_string('payment_completed', 'paygw_mpay24');
     }
 
-    public function get_description() {
+    /**
+     * Get_description
+     *
+     * @return string
+     *
+     */
+    public function get_description(): string {
         return "The user with the id {$this->userid} has completed the payment transaction with this orderid: " .
             $this->other['orderid'];
     }
 
-    public function get_url() {
+    /**
+     * Get url
+     *
+     * @return \moodle_url
+     *
+     */
+    public function get_url(): \moodle_url {
         return new \moodle_url('/payment/gateway/mpay24/checkout.php');
     }
 }

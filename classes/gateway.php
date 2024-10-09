@@ -17,9 +17,10 @@
 /**
  * Contains class for PayPal payment gateway.
  *
- * @package    paygw_mpay24
- * @copyright  2019 Shamim Rezaie <shamim@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package paygw_mpay24
+ * @author Georg Maißer
+ * @copyright 2022 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace paygw_mpay24;
@@ -27,16 +28,25 @@ namespace paygw_mpay24;
 /**
  * The gateway class for PayPal payment gateway.
  *
- * @copyright  2019 Shamim Rezaie <shamim@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package paygw_mpay24
+ * @author Georg Maißer
+ * @copyright 2022 Wunderbyte Gmbh <info@wunderbyte.at>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class gateway extends \core_payment\gateway {
+
+    /**
+     * Get supported currencies
+     *
+     * @return array
+     *
+     */
     public static function get_supported_currencies(): array {
         // See https://developer.paypal.com/docs/api/reference/currency-codes/,
         // 3-character ISO-4217: https://en.wikipedia.org/wiki/ISO_4217#Active_codes.
         return [
             'AUD', 'BRL', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'ILS', 'INR', 'JPY',
-            'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', 'TWD', 'USD'
+            'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', 'TWD', 'USD',
         ];
     }
 

@@ -37,7 +37,7 @@ import {
  *
  * @returns {Promise<Modal>}
  */
-const showModalWithPlaceholder = async () => {
+const showModalWithPlaceholder = async() => {
     const modal = await ModalFactory.create({
         body: await Templates.render('paygw_mpay24/mpay24_button_placeholder', {})
     });

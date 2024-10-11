@@ -68,6 +68,7 @@ final class checkout_test extends \advanced_testcase {
         $config = new stdClass;
         $config->environment = 'sandbox';
         // Load the credentials from Github.
+        $config->brandname = getenv('BRANDNAME');
         $config->clientid = getenv('CLIENTID');
         $config->secret = getenv('MPAY_SECRET');
 

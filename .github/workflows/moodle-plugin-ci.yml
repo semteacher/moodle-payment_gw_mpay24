@@ -170,6 +170,7 @@ jobs:
         if: ${{ !cancelled() }}
         # Envoke GitHub secret credentials (works OK only on this level)
         env:
+          BRANDNAME: ${{ secrets.BRANDNAME }}
           CLIENTID: ${{ secrets.CLIENTID }}
           MPAY_SECRET: ${{ secrets.MPAY_SECRET }}
         run: moodle-plugin-ci phpunit
@@ -178,6 +179,7 @@ jobs:
         if: ${{ !cancelled() }}
         # Envoke GitHub secret credentials (works OK only on this level)
         env:
+          BRANDNAME: ${{ secrets.BRANDNAME }}
           CLIENTID: ${{ secrets.CLIENTID }}
           MPAY_SECRET: ${{ secrets.MPAY_SECRET }}
         run: moodle-plugin-ci behat --profile chrome

@@ -45,31 +45,26 @@ Feature: MPay24 basic configuration and useage by user
     And I should see "30.30 EUR" in the ".sc_price_label" "css_element"
     Then I press "Checkout"
     And I wait until the page is ready
-    ##And I wait "1" seconds
     And I should see "mpay24" in the ".core_payment_gateways_modal" "css_element"
     And I should see "Cost: EUR" in the ".core_payment_fee_breakdown" "css_element"
     And I should see "30.30" in the ".core_payment_fee_breakdown" "css_element"
     And I press "Proceed"
+    ## npay service
     And I wait to be redirected
     And I wait until the page is ready
-    And I wait "2" seconds
-    ##And I wait to be redirected
-    ## The only way to deal with fields in the ifram is xpath
-    And I should see "wunderbyte"
-    And I should see "How would you like to pay"
-    And I click on "Visa" "text"
+    And I wait "1" seconds
+    And I click on "VISA" "text"
+    And I click on "Weiter" "button"
     And I wait until the page is ready
-    And I set the field "cardnumber" to "4111 1111 1111 1111"
-    And I set the field "cardholdername" to "Behat Test"
-    And I set the field "cardexpirationmonth" to "05"
-    And I set the field "cardexpirationyear" to "2040"
+    And I set the field "cardnumber" to "4444333322221111"
+    And I set the field "expiry_mm" to "05"
+    And I set the field "expiry_yy" to "2035"
     And I set the field "cvc" to "123"
     And I wait "1" seconds
-    And I click on "Pay Securely" "text"
-    ##And I press "Pay Securely"
+    And I click on "Bezahlen" "button"
     And I wait until the page is ready
-    And I should see "Authorised"
-    And I click on "Continue" "text"
+    And I should see "Transaktion erfolgreich!"
+    And I click on "Weiter" "button"
     ## Workaround for non-https dev env (uncomment line below for local testing)
     ## And I click on "Send anyway" "text"
     And I wait to be redirected

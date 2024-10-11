@@ -60,7 +60,7 @@ final class checkout_test extends \advanced_testcase {
 
         $record = new stdClass;
         $record->accountid = $this->account->get('id');
-        $record->gateway = 'payone';
+        $record->gateway = 'mpay24';
         $record->enabled = 1;
         $record->timecreated = time();
         $record->timemodified = time();
@@ -139,7 +139,8 @@ final class checkout_test extends \advanced_testcase {
         $this->assertEquals(10, $res['cost']);
         $this->assertEquals('EUR', $res['currency']);
         $this->assertEquals('sandbox', $res['environment']);
-        $this->assertStringContainsString('https://payment.preprod.payone.com/hostedcheckout/PaymentMethods/', $res['rooturl']);
+        $this->assertStringContainsString('https://www.example.com/moodle', $res['rooturl']);
+        $this->assertStringContainsString('https://test.mpay24.com/app/bin/tokenizer/fragment', $res['tokenizerlocation']);
     }
 
     /**

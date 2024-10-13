@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace paygw_mpay24\external;
 
 use context_system;
+use context_user;
 use core_payment\helper;
 use external_api;
 use external_function_parameters;
@@ -92,6 +93,14 @@ class transaction_complete extends external_api implements interface_transaction
 
         global $USER, $DB, $CFG, $DB;
 
+        // Context is important to avoid the error "An internal error has occurred. Please contact us.".
+        // Caused by response "Coding error detected, it must be fixed by a programmer: $PAGE->context was not set....".
+        // From shopping_cart_history on creation class instance.
+        $usercontext = context_user::instance($USER->id);
+        self::validate_context($usercontext);
+        $systencontext = context_system::instance();
+        self::validate_context($systencontext);
+
         if ($userid == 0) {
             $userid = $USER->id;
         }
@@ -111,12 +120,6 @@ class transaction_complete extends external_api implements interface_transaction
                 'message' => get_string('payment_alreadyexists', 'paygw_mpay24'),
             ];
         }
-
-        // Context is important to avoid the error "An internal error has occurred. Please contact us.".
-        // Caused by response "Coding error detected, it must be fixed by a programmer: $PAGE->context was not set....".
-        // From shopping_cart_history on creation class instance.
-        $systencontext = context_system::instance();
-        self::validate_context($systencontext);
 
         self::validate_parameters(self::execute_parameters(), [
             'component' => $component,

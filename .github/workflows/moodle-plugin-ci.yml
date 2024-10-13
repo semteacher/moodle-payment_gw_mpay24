@@ -175,6 +175,14 @@ jobs:
           MPAY_SECRET: ${{ secrets.MPAY_SECRET }}
         run: moodle-plugin-ci phpunit
 
+      - name: Setup upterm session
+        # Envoke GitHub secret credentials (works OK only on this level)
+        env:
+          BRANDNAME: ${{ secrets.BRANDNAME }}
+          CLIENTID: ${{ secrets.CLIENTID }}
+          MPAY_SECRET: ${{ secrets.MPAY_SECRET }}
+        uses: lhotari/action-upterm@v1
+
       - name: Behat features
         if: ${{ !cancelled() }}
         # Envoke GitHub secret credentials (works OK only on this level)

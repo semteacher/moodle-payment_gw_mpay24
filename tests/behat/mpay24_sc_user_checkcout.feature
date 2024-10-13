@@ -68,8 +68,6 @@ Feature: MPay24 basic configuration and useage by user
     ## Workaround for non-https dev env (uncomment line below for local testing)
     ## And I click on "Send anyway" "text"
     And I wait to be redirected
-    ## Line below - workaround for "An internal error has occurred. Please contact us. resultcode: 5. (press Proceed)"
-    And I reload the page
     And I wait until the page is ready
     And I should see "Test item 1" in the ".payment-success ul.list-group" "css_element"
     And I should see "Test item 2" in the ".payment-success ul.list-group" "css_element"

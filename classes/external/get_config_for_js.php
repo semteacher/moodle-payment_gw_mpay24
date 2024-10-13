@@ -107,13 +107,14 @@ class get_config_for_js extends external_api {
 
         // Check for duplicate.
         if (!$existingrecord = $DB->get_record('paygw_mpay24_openorders', ['itemid' => $itemid, 'userid' => $USER->id])) {
-            $DB->insert_record('paygw_mpay24_openorders', $record);
+            $id = $DB->insert_record('paygw_mpay24_openorders', $record);
 
             // We trigger the payment_added event.
             $context = context_system::instance();
             $event = payment_added::create([
                 'context' => $context,
                 'userid' => $USER->id,
+                'objectid' => $id,
                 'other' => [
                     'orderid' => $merchanttransactionid,
                 ],

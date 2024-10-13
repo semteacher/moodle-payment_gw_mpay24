@@ -66,9 +66,9 @@ export const init = (component, paymentarea, itemid, tid, token, customer, ische
                                 });
                                 modal.show();
                                 return true;
-                            }).catch({
+                            }).catch((e) => {
                                 // eslint-disable-next-line no-console
-                                // console.log(e);
+                                console.log(e);
                             });
                         });
                     });

@@ -74,6 +74,10 @@ class get_config_for_js extends external_api {
      */
     public static function execute(string $component, string $paymentarea, int $itemid): array {
         global $CFG, $USER, $SESSION, $DB;
+
+        $systemcontext = context_system::instance();
+        self::validate_context($systemcontext);
+
         self::validate_parameters(self::execute_parameters(), [
             'component' => $component,
             'paymentarea' => $paymentarea,

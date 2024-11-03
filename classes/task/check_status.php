@@ -61,7 +61,11 @@ class check_status extends \core\task\adhoc_task {
 
         $taskdata = $this->get_custom_data();
 
-        $userid = $this->get_userid();
+        $userid = $taskdata->userid ?? 0;
+
+        if (empty($userid)) {
+            $userid = $this->get_userid();
+        }
 
         transaction_complete::execute(
             $taskdata->component,
@@ -71,8 +75,8 @@ class check_status extends \core\task\adhoc_task {
             $taskdata->token,
             $taskdata->customer,
             $taskdata->ischeckstatus,
-            $taskdata->resourcepath,
-            $taskdata->userid,
+            $taskdata->resourcepath ?? '',
+            $userid,
         );
 
         mtrace('Update Status ' . $taskdata->itemid . ' from ' . $taskdata->component . ' for user .' . $userid);

@@ -186,18 +186,18 @@ jobs:
         ## --dump is working! - use if necessary
         ## run: moodle-plugin-ci behat --profile chrome --start-servers --dump
 
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
-
       - name: Upload Behat Faildump
-        ## if: ${{ failure() && steps.behat.outcome == 'failure' }}
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
           name: Behat Faildump (${{ join(matrix.*, ', ') }})
           path: ${{ github.workspace }}/moodledata/behat_dump
           retention-days: 7
           if-no-files-found: ignore
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
 
       - name: Mark cancelled jobs as failed.
         if: ${{ cancelled() }}

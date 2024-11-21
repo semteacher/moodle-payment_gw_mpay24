@@ -195,9 +195,9 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  if: ${{ failure() }}
+      #  uses: mxschmitt/action-tmate@v3
 
       - name: Mark cancelled jobs as failed.
         if: ${{ cancelled() }}

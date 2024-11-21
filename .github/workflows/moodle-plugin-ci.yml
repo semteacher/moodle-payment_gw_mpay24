@@ -182,7 +182,9 @@ jobs:
           BRANDNAME: ${{ secrets.BRANDNAME }}
           CLIENTID: ${{ secrets.CLIENTID }}
           MPAY_SECRET: ${{ secrets.MPAY_SECRET }}
-        run: moodle-plugin-ci behat --profile chrome --start-servers --dump
+        run: moodle-plugin-ci behat --profile chrome
+        ## --dump is working! - use if necessary
+        ## run: moodle-plugin-ci behat --profile chrome --start-servers --dump
 
       - name: Upload Behat Faildump
         if: ${{ failure() && steps.behat.outcome == 'failure' }}

@@ -182,7 +182,7 @@ jobs:
           BRANDNAME: ${{ secrets.BRANDNAME }}
           CLIENTID: ${{ secrets.CLIENTID }}
           MPAY_SECRET: ${{ secrets.MPAY_SECRET }}
-        run: moodle-plugin-ci behat --profile chrome
+        run: moodle-plugin-ci behat --profile chrome --start-servers --dump
 
       - name: Mark cancelled jobs as failed.
         if: ${{ cancelled() }}
